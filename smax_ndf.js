@@ -1,0 +1,97 @@
+function afficherPopup() {
+        // Créer une fenêtre contextuelle
+        var popup = window.open('', '_blank', 'width=600,height=400');
+
+        // Construire le formulaire avec le tableau dans la fenêtre contextuelle
+        var contenuPage = `
+            <h2>Formulaire de Dépenses</h2>
+            <form id="monFormulaire">
+                <label for="description">Description:</label>
+                <input type="text" name="description"><br>
+
+                <label for="date">Date:</label>
+                <input type="date" name="date"><br>
+
+                <label for="kilometres">Nombre de Kilomètres:</label>
+                <input type="number" name="kilometres"><br>
+
+                <label for="typeCarburant">Type de Carburant:</label>
+                <select name="typeCarburant">
+                    <option value="gas">Essence</option>
+                    <option value="electric">Électrique</option>
+                    <option value="diesel">Diesel</option>
+                </select><br>
+
+                <input type="button" value="Ajouter Dépense" onclick="ajouterDepense()">
+            </form>
+
+            <h2>Dépenses</h2>
+            <table id="tableauDepenses">
+                <tr>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Nombre de Kilomètres</th>
+                    <th>Type de Carburant</th>
+                </tr>
+            </table>
+
+            <br>
+            <input type="button" value="Soumettre Dépenses" onclick="soumettreDepenses()">
+        `;
+
+        popup.document.write(contenuPage);
+
+        // Fonction pour ajouter une dépense au tableau
+        popup.ajouterDepense = function() {
+            var formulaire = popup.document.getElementById('monFormulaire');
+            var tableau = popup.document.getElementById('tableauDepenses');
+            
+            // Récupérer les valeurs du formulaire
+            var description = formulaire.elements.namedItem('description').value;
+            var date = formulaire.elements.namedItem('date').value;
+            var kilometres = formulaire.elements.namedItem('kilometres').value;
+            var typeCarburant = formulaire.elements.namedItem('typeCarburant').value;
+
+            // Ajouter une nouvelle ligne au tableau
+            var nouvelleLigne = tableau.insertRow(-1);
+            var cell1 = nouvelleLigne.insertCell(0);
+            var cell2 = nouvelleLigne.insertCell(1);
+            var cell3 = nouvelleLigne.insertCell(2);
+            var cell4 = nouvelleLigne.insertCell(3);
+
+            // Remplir la nouvelle ligne avec les données du formulaire
+            cell1.innerHTML = description;
+            cell2.innerHTML = date;
+            cell3.innerHTML = kilometres;
+            cell4.innerHTML = typeCarburant;
+
+            // Effacer les valeurs du formulaire après ajout
+            formulaire.reset();
+        };
+
+        // Fonction pour soumettre les dépenses à la page principale
+        popup.soumettreDepenses = function() {
+            // Récupérer le tableau de dépenses
+            var tableau = popup.document.getElementById('tableauDepenses');
+            var lignes = tableau.getElementsByTagName('tr');
+            var depenses = [];
+
+            // Ignorer la première ligne (en-têtes)
+            for (var i = 1; i < lignes.length; i++) {
+                var cells = lignes[i].getElementsByTagName('td');
+                var depense = {
+                    description: cells[0].innerText,
+                    date: cells[1].innerText,
+                    kilometres: cells[2].innerText,
+                    typeCarburant: cells[3].innerText
+                };
+                depenses.push(depense);
+            }
+
+            // Fermer la fenêtre contextuelle
+            popup.close();
+
+            // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
+            alert(JSON.stringify(depenses));
+        };
+    }
