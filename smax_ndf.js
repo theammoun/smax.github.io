@@ -1,15 +1,4 @@
-
-
-
-
-// Fonction asynchrone que vous souhaitez appeler
-function fonctionAsynchrone() {
-    return new Promise(function(resolve, reject) {
-        // Votre code asynchrone ici
-
-
-
- 
+function afficherPopup() {
         // Créer une fenêtre contextuelle
         var popup = window.open('', '_blank', 'width=800,height=600');
 
@@ -204,46 +193,15 @@ function fonctionAsynchrone() {
 
     // Stocker le code HTML dans le champ texte
     // champCodeHTML.value = codeHTMLTableauDepenses;
-    
-// Accéder à la page principale et mettre à jour le champ
-window.opener.document.getElementById('smax-basic-form-0-Description').innerHTML='OK OK OK !!!';
+
 
             // Fermer la fenêtre contextuelle
-           setTimeout(function() {
-        popup.close();
-    }, 500);
+            popup.close();
 
             // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
             //alert(JSON.stringify(depenses));
-			//alert(codeHTMLTableauDepenses);
-			//document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
+			alert(codeHTMLTableauDepenses);
+			document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
         };
     
-    
-
-
-
-
-
-
-
-        // Par exemple, une simulation d'attente de 2 secondes
-        setTimeout(function() {
-            console.log("La fonction asynchrone est terminée.");
-            resolve();  // Appel de resolve() pour indiquer que la fonction est terminée avec succès
-        }, 40000);
-    });
-}
-
-// Utilisation de la fonction asynchrone
-async function utiliserFonctionAsynchrone() {
-    console.log("Début de l'exécution du code.");
-
-    // Appel de la fonction asynchrone et attendre qu'elle soit terminée
-    await fonctionAsynchrone();
-
-    console.log("Suite du code après l'exécution de la fonction asynchrone.");
-}
-
-// Appeler la fonction qui utilise la fonction asynchrone
-//utiliserFonctionAsynchrone();
+    }
