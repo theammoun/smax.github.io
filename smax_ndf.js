@@ -231,7 +231,7 @@ window.opener.document.getElementById('smax-basic-form-0-Description').innerHTML
         setTimeout(function() {
             console.log("La fonction asynchrone est terminée.");
             resolve();  // Appel de resolve() pour indiquer que la fonction est terminée avec succès
-        }, 2000);
+        }, 40000);
     });
 }
 
