@@ -209,3 +209,32 @@ window.opener.document.getElementById('smax-basic-form-0-Description').innerHTML
         };
     
     }
+
+
+
+
+// Fonction asynchrone que vous souhaitez appeler
+function fonctionAsynchrone() {
+    return new Promise(function(resolve, reject) {
+        // Votre code asynchrone ici
+
+        // Par exemple, une simulation d'attente de 2 secondes
+        setTimeout(function() {
+            console.log("La fonction asynchrone est terminée.");
+            resolve();  // Appel de resolve() pour indiquer que la fonction est terminée avec succès
+        }, 2000);
+    });
+}
+
+// Utilisation de la fonction asynchrone
+async function utiliserFonctionAsynchrone() {
+    console.log("Début de l'exécution du code.");
+
+    // Appel de la fonction asynchrone et attendre qu'elle soit terminée
+    await fonctionAsynchrone();
+
+    console.log("Suite du code après l'exécution de la fonction asynchrone.");
+}
+
+// Appeler la fonction qui utilise la fonction asynchrone
+utiliserFonctionAsynchrone();
