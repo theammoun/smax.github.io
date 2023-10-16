@@ -1,4 +1,4 @@
-function afficherPopup() {
+    function afficherPopup() {
         // Créer une fenêtre contextuelle
         var popup = window.open('', '_blank', 'width=800,height=600');
 
@@ -175,11 +175,33 @@ function afficherPopup() {
                 depenses.push(depense);
             }
 
+    // Stocker le code HTML de la table dans le champ texte
+    var codeHTMLTableauDepenses = '<table border="1">';
+    for (var i = 0; i < depenses.length; i++) {
+        codeHTMLTableauDepenses += '<tr>';
+        codeHTMLTableauDepenses += `<td>${depenses[i].seq}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].description}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].date}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].kilometres}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].villeDepart}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].villeArrivee}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].motorisation}</td>`;
+        codeHTMLTableauDepenses += `<td>${depenses[i].taux}</td>`;
+        codeHTMLTableauDepenses += '</tr>';
+    }
+    codeHTMLTableauDepenses += '</table>';
+
+    // Stocker le code HTML dans le champ texte
+    // champCodeHTML.value = codeHTMLTableauDepenses;
+
+
             // Fermer la fenêtre contextuelle
             popup.close();
 
             // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
-            alert(JSON.stringify(depenses));
+            //alert(JSON.stringify(depenses));
+			alert(codeHTMLTableauDepenses);
+			document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
         };
     
     }
