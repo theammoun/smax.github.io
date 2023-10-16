@@ -1,42 +1,69 @@
-function afficherPopup() {
+  function afficherPopup() {
         // Créer une fenêtre contextuelle
-        var popup = window.open('', '_blank', 'width=600,height=400');
+        var popup = window.open('', '_blank', 'width=800,height=600');
+
+        // Fonction pour créer une nouvelle table de dépenses
+        function creerTableauDepenses() {
+            var tableId = 'tableauDepenses';
+            if (!popup.tableauExiste) {
+                var contenuTable = `
+                    <h2>Dépenses</h2>
+                    <table id="${tableId}">
+                        <tr>
+                            <th>SEQ</th>
+                            <th>Date</th>
+                            <th>Nombre de Kilomètres</th>
+                            <th>Ville de départ</th>
+                            <th>Ville d'arrivée</th>
+                            <th>Motorisation</th>
+                            <th>Taux</th>
+                        </tr>
+                    </table><br>
+					<input type="button" value="Soumettre Dépenses" onclick="soumettreDepenses()">
+                `;
+                popup.document.write(contenuTable);
+                popup.tableauExiste = true;
+            }
+
+            return tableId;
+        }
 
         // Construire le formulaire avec le tableau dans la fenêtre contextuelle
         var contenuPage = `
             <h2>Formulaire de Dépenses</h2>
             <form id="monFormulaire">
-                <label for="description">Description:</label>
-                <input type="text" name="description"><br>
-
+                
                 <label for="date">Date:</label>
-                <input type="date" name="date"><br>
+                <input type="date" name="date" max="${new Date().toISOString().split('T')[0]}"><br>
 
                 <label for="kilometres">Nombre de Kilomètres:</label>
-                <input type="number" name="kilometres"><br>
+                <input type="number" name="kilometres" step="1"><br>
 
-                <label for="typeCarburant">Type de Carburant:</label>
-                <select name="typeCarburant">
-                    <option value="gas">Essence</option>
-                    <option value="electric">Électrique</option>
+                <label for="villeDepart">Ville de départ:</label>
+                <input type="text" name="villeDepart"><br>
+
+                <label for="villeArrivee">Ville d'arrivée:</label>
+                <input type="text" name="villeArrivee"><br>
+
+                <label for="motorisation">Motorisation:</label>
+                <select name="motorisation">
                     <option value="diesel">Diesel</option>
+                    <option value="essence">Essence</option>
+                    <option value="hybride">Hybride</option>
+                </select><br>
+
+                <label for="taux">Taux:</label>
+                <select name="taux">
+                    <option value="0.529">0,529</option>
+                    <option value="0.606">0,606</option>
+                    <option value="0.636">0,636</option>
                 </select><br>
 
                 <input type="button" value="Ajouter Dépense" onclick="ajouterDepense()">
             </form>
-
-            <h2>Dépenses</h2>
-            <table id="tableauDepenses">
-                <tr>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Nombre de Kilomètres</th>
-                    <th>Type de Carburant</th>
-                </tr>
-            </table>
-
-            <br>
-            <input type="button" value="Soumettre Dépenses" onclick="soumettreDepenses()">
+            <h2>Résultats</h2>
+            <p id="totalKM">Total KM: 0</p>
+            <p id="montantRegler">Montant à régler: 0.00</p>
         `;
 
         popup.document.write(contenuPage);
@@ -44,13 +71,17 @@ function afficherPopup() {
         // Fonction pour ajouter une dépense au tableau
         popup.ajouterDepense = function() {
             var formulaire = popup.document.getElementById('monFormulaire');
-            var tableau = popup.document.getElementById('tableauDepenses');
+            var tableauId = creerTableauDepenses();
+            var tableau = popup.document.getElementById(tableauId);
             
             // Récupérer les valeurs du formulaire
-            var description = formulaire.elements.namedItem('description').value;
+          //  var description = formulaire.elements.namedItem('description').value;
             var date = formulaire.elements.namedItem('date').value;
             var kilometres = formulaire.elements.namedItem('kilometres').value;
-            var typeCarburant = formulaire.elements.namedItem('typeCarburant').value;
+            var villeDepart = formulaire.elements.namedItem('villeDepart').value;
+            var villeArrivee = formulaire.elements.namedItem('villeArrivee').value;
+            var motorisation = formulaire.elements.namedItem('motorisation').value;
+            var taux = formulaire.elements.namedItem('taux').value;
 
             // Ajouter une nouvelle ligne au tableau
             var nouvelleLigne = tableau.insertRow(-1);
@@ -58,18 +89,53 @@ function afficherPopup() {
             var cell2 = nouvelleLigne.insertCell(1);
             var cell3 = nouvelleLigne.insertCell(2);
             var cell4 = nouvelleLigne.insertCell(3);
+            var cell5 = nouvelleLigne.insertCell(4);
+            var cell6 = nouvelleLigne.insertCell(5);
+            var cell7 = nouvelleLigne.insertCell(6);
+           // var cell8 = nouvelleLigne.insertCell(7);
 
             // Remplir la nouvelle ligne avec les données du formulaire
-            cell1.innerHTML = description;
+            cell1.innerHTML = tableau.rows.length - 1; // SEQ (Auto increment)
+         //   cell2.innerHTML = description;
             cell2.innerHTML = date;
             cell3.innerHTML = kilometres;
-            cell4.innerHTML = typeCarburant;
+            cell4.innerHTML = villeDepart;
+            cell5.innerHTML = villeArrivee;
+            cell6.innerHTML = motorisation;
+            cell7.innerHTML = taux;
 
             // Effacer les valeurs du formulaire après ajout
             formulaire.reset();
+
+            // Mettre à jour le total des kilomètres
+            mettreAJourTotalKM();
         };
 
-        // Fonction pour soumettre les dépenses à la page principale
+        // Fonction pour mettre à jour le total des kilomètres
+        function mettreAJourTotalKM() {
+            var totalKM = 0;
+
+            // Pour chaque ligne du tableau de dépenses
+            for (var i = 1; i < popup.tableauDepenses.rows.length; i++) {
+                var celluleKM = popup.tableauDepenses.rows[i].cells[3];
+                var km = parseInt(celluleKM.innerHTML);
+                if (!isNaN(km)) {
+                    totalKM += km;
+                }
+            }
+
+            // Afficher le total des kilomètres
+            var totalKMElement = popup.document.getElementById('totalKM');
+            totalKMElement.innerHTML = 'Total KM: ' + totalKM;
+
+            // Calculer et afficher le montant à régler
+            var tauxSelectionne = parseFloat(formulaire.elements.namedItem('taux').value);
+            var montantRegler = totalKM * tauxSelectionne;
+            var montantReglerElement = popup.document.getElementById('montantRegler');
+            montantReglerElement.innerHTML = 'Montant à régler: ' + montantRegler.toFixed(2);
+        }
+
+       // Fonction pour soumettre les dépenses à la page principale
         popup.soumettreDepenses = function() {
             // Récupérer le tableau de dépenses
             var tableau = popup.document.getElementById('tableauDepenses');
@@ -80,7 +146,7 @@ function afficherPopup() {
             for (var i = 1; i < lignes.length; i++) {
                 var cells = lignes[i].getElementsByTagName('td');
                 var depense = {
-                    description: cells[0].innerText,
+                    //description: cells[0].innerText,
                     date: cells[1].innerText,
                     kilometres: cells[2].innerText,
                     typeCarburant: cells[3].innerText
@@ -94,4 +160,5 @@ function afficherPopup() {
             // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
             alert(JSON.stringify(depenses));
         };
+    
     }
