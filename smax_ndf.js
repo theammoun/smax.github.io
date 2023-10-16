@@ -193,15 +193,20 @@
 
     // Stocker le code HTML dans le champ texte
     // champCodeHTML.value = codeHTMLTableauDepenses;
-
+    
+// Accéder à la page principale et mettre à jour le champ
+    var champCodeHTML = window.opener.document.getElementById('smax-basic-form-0-Description');
+    if (champCodeHTML) {
+        champCodeHTML.innerHTML = codeHTMLTableauDepenses;
+    }
 
             // Fermer la fenêtre contextuelle
             popup.close();
 
             // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
             //alert(JSON.stringify(depenses));
-			alert(codeHTMLTableauDepenses);
-			document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
+			//alert(codeHTMLTableauDepenses);
+			//document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
         };
     
     }
