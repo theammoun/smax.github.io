@@ -195,14 +195,12 @@
     // champCodeHTML.value = codeHTMLTableauDepenses;
     
 // Accéder à la page principale et mettre à jour le champ
-    var champCodeHTML = window.opener.document.getElementById('smax-basic-form-0-Description');
-    if (champCodeHTML) {
-        champCodeHTML.innerHTML = codeHTMLTableauDepenses;
-    }
-		champCodeHTML.innerHTML = 'TEST SUCCESS';
+window.opener.document.getElementById('smax-basic-form-0-Description').innerHTML='OK OK OK !!!';
 
             // Fermer la fenêtre contextuelle
-            popup.close();
+           setTimeout(function() {
+        popup.close();
+    }, 500);
 
             // Afficher les données sur la page principale (vous pouvez ajuster cette partie selon vos besoins)
             //alert(JSON.stringify(depenses));
