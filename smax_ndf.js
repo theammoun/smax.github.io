@@ -235,6 +235,3 @@ async function utiliserFonctionAsynchrone() {
 
     console.log("Suite du code après l'exécution de la fonction asynchrone.");
 }
-
-// Appeler la fonction qui utilise la fonction asynchrone
-utiliserFonctionAsynchrone();
