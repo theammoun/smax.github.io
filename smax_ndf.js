@@ -1,4 +1,15 @@
-    function afficherPopup() {
+
+
+
+
+// Fonction asynchrone que vous souhaitez appeler
+function fonctionAsynchrone() {
+    return new Promise(function(resolve, reject) {
+        // Votre code asynchrone ici
+
+
+
+ 
         // Créer une fenêtre contextuelle
         var popup = window.open('', '_blank', 'width=800,height=600');
 
@@ -208,15 +219,13 @@ window.opener.document.getElementById('smax-basic-form-0-Description').innerHTML
 			//document.getElementById('smax-basic-form-0-Description').innerHTML=codeHTMLTableauDepenses;
         };
     
-    }
+    
 
 
 
 
-// Fonction asynchrone que vous souhaitez appeler
-function fonctionAsynchrone() {
-    return new Promise(function(resolve, reject) {
-        // Votre code asynchrone ici
+
+
 
         // Par exemple, une simulation d'attente de 2 secondes
         setTimeout(function() {
@@ -235,3 +244,6 @@ async function utiliserFonctionAsynchrone() {
 
     console.log("Suite du code après l'exécution de la fonction asynchrone.");
 }
+
+// Appeler la fonction qui utilise la fonction asynchrone
+//utiliserFonctionAsynchrone();
