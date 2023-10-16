@@ -1,4 +1,4 @@
-  function afficherPopup() {
+function afficherPopup() {
         // Créer une fenêtre contextuelle
         var popup = window.open('', '_blank', 'width=800,height=600');
 
@@ -8,6 +8,27 @@
             if (!popup.tableauExiste) {
                 var contenuTable = `
                     <h2>Dépenses</h2>
+					<style>
+                        table {
+                            border-collapse: collapse;
+                            width: 100%;
+                            margin-bottom: 20px;
+                        }
+
+                        th, td {
+                            border: 1px solid #dddddd;
+                            text-align: left;
+                            padding: 8px;
+                        }
+
+                        th {
+                            background-color: #f2f2f2;
+                        }
+
+                        form, h2 {
+                            margin-bottom: 20px;
+                        }
+                    </style>
                     <table id="${tableId}">
                         <tr>
                             <th>SEQ</th>
